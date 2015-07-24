@@ -6,10 +6,9 @@ tourPlateau(J1,J2,P1,P2,P1Fin,P2Fin,CasePriseGraines,GrainesRamassees) :- nombre
 siPremiereDistributionPossible(_,_,P1,P2,P1,P2,_,0,0):- !.
 siPremiereDistributionPossible(J1,J2,P1,P2,P1Fin,P2Fin,CasePriseGraines,NbGrDistrib,GrainesRamassees):- NbGrDistrib\==0,!,distribuerSurPlateau(0,CasePriseGraines,NbGrDistrib,P1,NewP1,_,NbGrainesResttes),
 																										siDeuxiemeDistributionPossible(J2,J1,P2,NewP1,P2Fin,P1Fin,NbGrainesResttes,GrainesRamassees).
-%/
-	If seeds number to distribute is greater than the number of cases to travel on current user board, then the remnant of seeds are distributed on
-	the other player's board
-/%
+
+%/If seeds number to distribute is greater than the number of cases to travel on current user board, then /%
+%/the remnant of seeds are distributed on the other player's board/%
 siDeuxiemeDistributionPossible(_,_,P2,NewP1,P2,NewP1,0,0):- !.
 siDeuxiemeDistributionPossible(J2,J1,P2,NewP1,P2Fin,P1Fin,NbGrainesResttes,GrainesRamassees):-  NbGrainesResttes\==0,!,distribuerSurPlateau2(J2,J1,P2,NewP1,NbGrainesResttes,CaseA,P2AvtRamasse,P1Fin,Ja),
 																								calculerNombreDeGrainesRamassees(J1,Ja,P2AvtRamasse,P2Fin,CaseA,GrainesRamassees).
@@ -30,10 +29,8 @@ calculerCaseArrivee(Case1,_,CaseFin):- CaseFin is 1-Case1,!.
 nombreGrainesDansCase(Case, [_|Q], NbGraines) :- Case\==1,!,NouvCase is Case-1, nombreGrainesDansCase(NouvCase,Q, NbGraines).
 nombreGrainesDansCase(1,[NbGraines|_], NbGraines):- !.
 
-%/
-	In order to calculate the number of seeds, the list needs to be reversed so as to respect the recursion implied by Awalé rule : it's indeed
-	possible to recover several seeds in one shot.
-/%
+%/In order to calculate the number of seeds, the list needs to be reversed so as to respect the recursion implied /%
+%/by Awalé rule : it's indeed possible to recover several seeds in one shot./%
 calculerNombreDeGrainesRamassees(J1,J1,P2,P2,_,0):- !.
 calculerNombreDeGrainesRamassees(_,_,P2,NewP2,CaseDepart,GrainesRamassees):-  inverse(P2,P2Inverse), CaseDep is 7-CaseDepart,recuperationGraines(P2Inverse, CaseDep, NewP2Invers, GrainesRamassees),inverse(NewP2Invers,NewP2).
 
